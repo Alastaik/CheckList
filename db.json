@@ -1,24 +1,15 @@
 {
   "vehicles": [
     {
-      "id": 1,
       "vehicle": "Sedan",
-      "brand": "Toyota",
-      "yearModel": "2020",
+      "brand": "Chevrolet",
+      "yearModel": "2016",
       "engine": "2.0",
-      "color": "Prata",
-      "plate": "ABC-1234",
-      "fuelLevel": "1/2"
-    },
-    {
-      "id": "2e10",
-      "vehicle": "Sedan",
-      "brand": "Toyota",
-      "yearModel": "2020",
-      "engine": "2.0",
-      "color": "Prata",
+      "color": "Preto",
       "plate": "AAA-AAAA",
-      "fuelLevel": "C"
+      "fuelLevel": "C",
+      "id": "40fc"
     }
-  ]
+  ],
+  "recebimentos": []
 }
