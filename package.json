@@ -1,3 +1,4 @@
+
 {
   "name": "my-website",
   "version": "1.0.0",
@@ -10,7 +11,8 @@
   "author": "Yuri Silva",
   "license": "MIT",
   "dependencies": {
-    "json-server": "^0.16.3"
+    "json-server": "^0.16.3",
+    "cors": "^2.8.5" // Adicione esta linha
   },
   "devDependencies": {
     "live-server": "^1.2.1"
