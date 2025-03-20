@@ -15,6 +15,7 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="editar.html">Editar</a></li>
+                    <li><a href="recebimento.html">Recebimento/Entrega</a></li>
                 </ul>
             </nav>
         </div>
@@ -22,7 +23,6 @@
     <main>
         <div class="container">
             <h2>Bem-vindo ao Sistema de Gerenciamento de Veículos</h2>
-            <!-- Conteúdo da página Home -->
         </div>
     </main>
     <footer>
@@ -30,6 +30,17 @@
             <p>&copy; 2025 Created by: Yuri Silva</p>
         </div>
     </footer>
-    <script src="scripts/index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuIcon = document.getElementById('menu-icon');
+            const menu = document.getElementById('menu');
+
+            if (menuIcon && menu) {
+                menuIcon.addEventListener('click', () => {
+                    menu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
 </body>
 </html>
