@@ -1,1 +1,58 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recebimento/Entrega de Veículos</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Recebimento/Entrega de Veículos</h1>
+            <div class="menu-icon" id="menu-icon">III</div>
+            <nav class="menu hidden" id="menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="editar.html">Editar</a></li>
+                    <li><a href="recebimento.html">Recebimento/Entrega</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <h2>Formulário de Recebimento/Entrega de Veículos</h2>
+            <form id="recebimento-form">
+                <label for="entry-date">Data de Entrada:</label>
+                <input type="date" id="entry-date" name="entry-date" required><br>
+                <label for="entry-time">Hora de Entrada:</label>
+                <input type="time" id="entry-time" name="entry-time" required><br>
+                <label for="exit-date">Data de Saída:</label>
+                <input type="date" id="exit-date" name="exit-date" readonly><br>
+                <label for="exit-time">Hora de Saída:</label>
+                <input type="time" id="exit-time" name="exit-time" readonly><br>
+                <label for="vehicle">Veículo:</label>
+                <select id="vehicle" name="vehicle" required>
+                    <!-- Opções serão preenchidas pelo JavaScript -->
+                </select><br>
+                <label for="driver-id">Número de Matrícula do Condutor:</label>
+                <input type="text" id="driver-id" name="driver-id" required><br>
+                <label for="driver-name">Nome do Condutor:</label>
+                <input type="text" id="driver-name" name="driver-name" required><br>
+                <label for="card-number">Número do Cartão:</label>
+                <input type="text" id="card-number" name="card-number" required><br>
+                <label for="observations">Observações do Condutor/Motorista:</label>
+                <textarea id="observations" name="observations"></textarea><br>
+                <button type="submit" class="btn">Salvar</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Created by: Yuri Silva</p>
+        </div>
+    </footer>
+    <script src="scripts/recebimento.js"></script>
+</body>
+</html>
