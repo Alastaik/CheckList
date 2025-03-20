@@ -23,6 +23,10 @@
             padding: 8px;
             box-sizing: border-box;
         }
+        .form-group .checkbox-group {
+            display: flex;
+            justify-content: space-between;
+        }
         .btn {
             padding: 10px 15px;
             background-color: #007BFF;
@@ -102,8 +106,54 @@
                     <input type="text" id="card-number" name="card-number" required>
                 </div>
                 <div class="form-group">
-                    <label for="observations">Observações do Condutor/Motorista:</label>
-                    <textarea id="observations" name="observations"></textarea>
+                    <label>Peças/Acessórios:</label>
+                    <div class="checkbox-group">
+                        <label>Bateria/Marca: <input type="checkbox" name="bateria" value="sim"> Sim <input type="checkbox" name="bateria" value="nao"> Não <input type="checkbox" name="bateria-danificado" value="danificado"> Danificado</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Macaco: <input type="checkbox" name="macaco" value="sim"> Sim <input type="checkbox" name="macaco" value="nao"> Não <input type="checkbox" name="macaco-danificado" value="danificado"> Danificado</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Triângulo: <input type="checkbox" name="triangulo" value="sim"> Sim <input type="checkbox" name="triangulo" value="nao"> Não <input type="checkbox" name="triangulo-danificado" value="danificado"> Danificado</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Chave de Roda: <input type="checkbox" name="chave-roda" value="sim"> Sim <input type="checkbox" name="chave-roda" value="nao"> Não <input type="checkbox" name="chave-roda-danificado" value="danificado"> Danificado</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Computador de Bordo: <input type="checkbox" name="computador-bordo" value="sim"> Sim <input type="checkbox" name="computador-bordo" value="nao"> Não <input type="checkbox" name="computador-bordo-danificado" value="danificado"> Danificado</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Extintor: <input type="checkbox" name="extintor" value="sim"> Sim <input type="checkbox" name="extintor" value="nao"> Não <input type="checkbox" name="extintor-danificado" value="danificado"> Danificado</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Jogo de Tapetes: <input type="checkbox" name="jogo-tapetes" value="sim"> Sim <input type="checkbox" name="jogo-tapetes" value="nao"> Não <input type="checkbox" name="jogo-tapetes-danificado" value="danificado"> Danificado</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Vidros Elétricos: <input type="checkbox" name="vidros-eletricos" value="sim"> Sim <input type="checkbox" name="vidros-eletricos" value="nao"> Não <input type="checkbox" name="vidros-eletricos-danificado" value="danificado"> Danificado</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Trava Elétrica: <input type="checkbox" name="trava-eletrica" value="sim"> Sim <input type="checkbox" name="trava-eletrica" value="nao"> Não <input type="checkbox" name="trava-eletrica-danificado" value="danificado"> Danificado</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Funcionamento: <input type="checkbox" name="funcionamento" value="sim"> Sim <input type="checkbox" name="funcionamento" value="nao"> Não <input type="checkbox" name="funcionamento-danificado" value="danificado"> Danificado</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Manual: <input type="checkbox" name="manual" value="sim"> Sim <input type="checkbox" name="manual" value="nao"> Não <input type="checkbox" name="manual-danificado" value="danificado"> Danificado</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Documentos DETRAN: <input type="checkbox" name="documentos-detran" value="sim"> Sim <input type="checkbox" name="documentos-detran" value="nao"> Não <input type="checkbox" name="documentos-detran-danificado" value="danificado"> Danificado</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Chave Reserva: <input type="checkbox" name="chave-reserva" value="sim"> Sim <input type="checkbox" name="chave-reserva" value="nao"> Não <input type="checkbox" name="chave-reserva-danificado" value="danificado"> Danificado</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="observacoes-avarias">Observações de Avarias Externas/Internas:</label>
+                    <textarea id="observacoes-avarias" name="observacoes-avarias"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="servicos-realizados">Serviços Realizados:</label>
+                    <textarea id="servicos-realizados" name="servicos-realizados"></textarea>
                 </div>
                 <button type="submit" class="btn">Salvar</button>
             </form>
