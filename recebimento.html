@@ -5,6 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recebimento/Entrega de Veículos</title>
     <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .btn {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .vehicle-list {
+            margin-top: 20px;
+        }
+        .vehicle-item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .vehicle-item button {
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -24,28 +67,49 @@
         <div class="container">
             <h2>Formulário de Recebimento/Entrega de Veículos</h2>
             <form id="recebimento-form">
-                <label for="entry-date">Data de Entrada:</label>
-                <input type="date" id="entry-date" name="entry-date" required><br>
-                <label for="entry-time">Hora de Entrada:</label>
-                <input type="time" id="entry-time" name="entry-time" required><br>
-                <label for="exit-date">Data de Saída:</label>
-                <input type="date" id="exit-date" name="exit-date" readonly><br>
-                <label for="exit-time">Hora de Saída:</label>
-                <input type="time" id="exit-time" name="exit-time" readonly><br>
-                <label for="vehicle">Veículo:</label>
-                <select id="vehicle" name="vehicle" required>
-                    <!-- Opções serão preenchidas pelo JavaScript -->
-                </select><br>
-                <label for="driver-id">Número de Matrícula do Condutor:</label>
-                <input type="text" id="driver-id" name="driver-id" required><br>
-                <label for="driver-name">Nome do Condutor:</label>
-                <input type="text" id="driver-name" name="driver-name" required><br>
-                <label for="card-number">Número do Cartão:</label>
-                <input type="text" id="card-number" name="card-number" required><br>
-                <label for="observations">Observações do Condutor/Motorista:</label>
-                <textarea id="observations" name="observations"></textarea><br>
+                <div class="form-group">
+                    <label for="entry-date">Data de Entrada:</label>
+                    <input type="date" id="entry-date" name="entry-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="entry-time">Hora de Entrada:</label>
+                    <input type="time" id="entry-time" name="entry-time" required>
+                </div>
+                <div class="form-group">
+                    <label for="exit-date">Data de Saída:</label>
+                    <input type="date" id="exit-date" name="exit-date" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="exit-time">Hora de Saída:</label>
+                    <input type="time" id="exit-time" name="exit-time" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="vehicle">Veículo:</label>
+                    <select id="vehicle" name="vehicle" required>
+                        <!-- Opções serão preenchidas pelo JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="driver-id">Número de Matrícula do Condutor:</label>
+                    <input type="text" id="driver-id" name="driver-id" required>
+                </div>
+                <div class="form-group">
+                    <label for="driver-name">Nome do Condutor:</label>
+                    <input type="text" id="driver-name" name="driver-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="card-number">Número do Cartão:</label>
+                    <input type="text" id="card-number" name="card-number" required>
+                </div>
+                <div class="form-group">
+                    <label for="observations">Observações do Condutor/Motorista:</label>
+                    <textarea id="observations" name="observations"></textarea>
+                </div>
                 <button type="submit" class="btn">Salvar</button>
             </form>
+            <div class="vehicle-list" id="vehicle-list">
+                <!-- Lista de veículos será preenchida pelo JavaScript -->
+            </div>
         </div>
     </main>
     <footer>
