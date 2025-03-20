@@ -3,214 +3,219 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const menuIcon = document.getElementById('menu-icon');
     const menu = document.getElementById('menu');
-    const recebimentoForm = document.getElementById('recebimento-form');
-    const vehicleSelect = document.getElementById('vehicle');
-    const exitDateInput = document.getElementById('exit-date');
-    const exitTimeInput = document.getElementById('exit-time');
+    const addVehicleBtn = document.getElementById('add-vehicle-btn');
+    const formSection = document.getElementById('form-section');
     const vehicleList = document.getElementById('vehicle-list');
+    const vehicleForm = document.getElementById('vehicle-form');
+    const plateInput = document.getElementById('plate');
+    const errorMessage = document.getElementById('error-message');
+    const successMessage = document.getElementById('success-message');
 
-    let recebimentos = [];
-    let editIndex = null;
+    let vehicles = [];
 
-    // Função para obter a data atual no formato YYYY-MM-DD
-    function getCurrentDate() {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+    // Função para exibir a mensagem de erro
+    function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.classList.remove('hidden');
     }
 
-    // Função para obter a hora atual no formato HH:MM
-    function getCurrentTime() {
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        return `${hours}:${minutes}`;
+    // Função para esconder a mensagem de erro
+    function hideError() {
+        errorMessage.classList.add('hidden');
     }
 
-    // Preencher a data e hora de saída com os valores atuais
-    exitDateInput.value = getCurrentDate();
-    exitTimeInput.value = getCurrentTime();
+    // Função para exibir a mensagem de sucesso
+    function showSuccess(message) {
+        successMessage.textContent = message;
+        successMessage.classList.remove('hidden');
+    }
 
-    // Função para buscar os veículos do servidor
+    // Função para esconder a mensagem de sucesso
+    function hideSuccess() {
+        successMessage.classList.add('hidden');
+    }
+
+    // Função para aplicar a máscara da placa
+    function applyPlateMask(input) {
+        input.addEventListener('input', () => {
+            let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            if (value.length > 7) {
+                value = value.slice(0, 7);
+            }
+            if (value.length > 3) {
+                value = value.slice(0, 3) + '-' + value.slice(3);
+            }
+            input.value = value;
+        });
+    }
+
+    applyPlateMask(plateInput);
+
+    // Função para buscar os veículos
     async function fetchVehicles() {
         try {
             const response = await fetch('http://localhost:3000/vehicles');
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Erro ao carregar os veículos');
             }
-            const vehicles = await response.json();
-            populateVehicleSelect(vehicles);
+            vehicles = await response.json();
+            renderVehicles();
+            hideError();
         } catch (error) {
-            console.error('Failed to fetch vehicles:', error);
+            console.error('Erro ao buscar os veículos:', error);
+            showError('Erro ao carregar os veículos. Tente novamente mais tarde.');
         }
     }
 
-    // Função para preencher o select de veículos
-    function populateVehicleSelect(vehicles) {
-        vehicles.forEach(vehicle => {
-            const option = document.createElement('option');
-            option.value = vehicle.id;
-            option.textContent = `${vehicle.vehicle} - ${vehicle.plate}`;
-            vehicleSelect.appendChild(option);
-        });
-    }
-
-    // Função para buscar os recebimentos do servidor
-    async function fetchRecebimentos() {
+    // Função para salvar um novo veículo
+    async function saveVehicle(vehicle) {
         try {
-            const response = await fetch('http://localhost:3000/recebimentos');
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            recebimentos = await response.json();
-            renderRecebimentos();
-        } catch (error) {
-            console.error('Failed to fetch recebimentos:', error);
-        }
-    }
-
-    // Função para renderizar a lista de recebimentos
-    function renderRecebimentos() {
-        vehicleList.innerHTML = '';
-        recebimentos.forEach((recebimento, index) => {
-            const item = document.createElement('div');
-            item.classList.add('vehicle-item');
-            item.innerHTML = `
-                <div>
-                    <strong>Veículo:</strong> ${recebimento.vehicle} <br>
-                    <strong>Entrada:</strong> ${recebimento.entryDate} ${recebimento.entryTime} <br>
-                    <strong>Saída:</strong> ${recebimento.exitDate} ${recebimento.exitTime} <br>
-                    <strong>Condutor:</strong> ${recebimento.driverName} (${recebimento.driverId}) <br>
-                    <strong>Cartão:</strong> ${recebimento.cardNumber} <br>
-                    <strong>Observações:</strong> ${recebimento.observations}
-                </div>
-                <div>
-                    <button class="btn edit-btn" data-index="${index}">Editar</button>
-                    <button class="btn delete-btn" data-index="${index}">Excluir</button>
-                </div>
-            `;
-            vehicleList.appendChild(item);
-        });
-    }
-
-    // Função para lidar com o envio do formulário
-    recebimentoForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        const formData = {
-            entryDate: document.getElementById('entry-date').value,
-            entryTime: document.getElementById('entry-time').value,
-            exitDate: exitDateInput.value,
-            exitTime: exitTimeInput.value,
-            vehicle: vehicleSelect.value,
-            driverId: document.getElementById('driver-id').value,
-            driverName: document.getElementById('driver-name').value,
-            cardNumber: document.getElementById('card-number').value,
-            observations: document.getElementById('observations').value
-        };
-
-        if (editIndex !== null) {
-            // Atualizar recebimento existente
-            const id = recebimentos[editIndex].id;
-            await updateRecebimento(id, formData);
-            recebimentos[editIndex] = { id, ...formData };
-            editIndex = null;
-        } else {
-            // Salvar novo recebimento
-            const newRecebimento = await saveRecebimento(formData);
-            recebimentos.push(newRecebimento);
-        }
-
-        renderRecebimentos();
-        recebimentoForm.reset();
-        exitDateInput.value = getCurrentDate();
-        exitTimeInput.value = getCurrentTime();
-    });
-
-    // Função para salvar um novo recebimento no servidor
-    async function saveRecebimento(recebimento) {
-        try {
-            const response = await fetch('http://localhost:3000/recebimentos', {
+            const response = await fetch('http://localhost:3000/vehicles', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(recebimento)
+                body: JSON.stringify(vehicle)
             });
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Erro ao salvar o veículo');
             }
             return await response.json();
         } catch (error) {
-            console.error('Failed to save recebimento:', error);
+            console.error('Erro ao salvar o veículo:', error);
+            showError('Erro ao salvar o veículo. Tente novamente mais tarde.');
         }
     }
 
-    // Função para atualizar um recebimento existente no servidor
-    async function updateRecebimento(id, recebimento) {
+    // Função para atualizar um veículo existente
+    async function updateVehicle(id, vehicle) {
         try {
-            const response = await fetch(`http://localhost:3000/recebimentos/${id}`, {
+            const response = await fetch(`http://localhost:3000/vehicles/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(recebimento)
+                body: JSON.stringify(vehicle)
             });
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Erro ao atualizar o veículo');
             }
             return await response.json();
         } catch (error) {
-            console.error('Failed to update recebimento:', error);
+            console.error('Erro ao atualizar o veículo:', error);
+            showError('Erro ao atualizar o veículo. Tente novamente mais tarde.');
         }
     }
 
-    // Função para excluir um recebimento do servidor
-    async function deleteRecebimento(id) {
+    // Função para excluir um veículo
+    async function deleteVehicle(id) {
         try {
-            const response = await fetch(`http://localhost:3000/recebimentos/${id}`, {
+            const response = await fetch(`http://localhost:3000/vehicles/${id}`, {
                 method: 'DELETE'
             });
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Erro ao excluir o veículo');
             }
-            recebimentos = recebimentos.filter(recebimento => recebimento.id !== id);
-            renderRecebimentos();
+            return await response.json();
         } catch (error) {
-            console.error('Failed to delete recebimento:', error);
+            console.error('Erro ao excluir o veículo:', error);
+            showError('Erro ao excluir o veículo. Tente novamente mais tarde.');
         }
     }
 
-    // Lidar com os botões de edição e exclusão
-    vehicleList.addEventListener('click', (event) => {
-        if (event.target.classList.contains('edit-btn')) {
-            editIndex = event.target.getAttribute('data-index');
-            const recebimento = recebimentos[editIndex];
+    // Função para renderizar a lista de veículos
+    function renderVehicles() {
+        vehicleList.innerHTML = '';
+        vehicles.forEach((vehicle, index) => {
+            const vehicleBlock = document.createElement('div');
+            vehicleBlock.classList.add('vehicle-block');
+            vehicleBlock.innerHTML = `
+                <h3>${vehicle.yearModel} - ${vehicle.plate}</h3>
+                <p>Veículo: ${vehicle.vehicle}</p>
+                <p>Marca: ${vehicle.brand}</p>
+                <p>Motor: ${vehicle.engine}</p>
+                <p>Cor: ${vehicle.color}</p>
+                <p>Nível de Combustível: ${vehicle.fuelLevel}</p>
+                <button class="btn edit-btn" data-index="${index}" data-id="${vehicle.id}">Editar</button>
+                <button class="btn delete-btn" data-id="${vehicle.id}">Excluir</button>
+            `;
+            vehicleList.appendChild(vehicleBlock);
+        });
+    }
 
-            document.getElementById('entry-date').value = recebimento.entryDate;
-            document.getElementById('entry-time').value = recebimento.entryTime;
-            exitDateInput.value = recebimento.exitDate;
-            exitTimeInput.value = recebimento.exitTime;
-            vehicleSelect.value = recebimento.vehicle;
-            document.getElementById('driver-id').value = recebimento.driverId;
-            document.getElementById('driver-name').value = recebimento.driverName;
-            document.getElementById('card-number').value = recebimento.cardNumber;
-            document.getElementById('observations').value = recebimento.observations;
-        } else if (event.target.classList.contains('delete-btn')) {
-            const index = event.target.getAttribute('data-index');
-            const id = recebimentos[index].id;
-            deleteRecebimento(id);
-        }
-    });
+    // Mostrar ou esconder o formulário de adicionar veículo
+    if (addVehicleBtn && formSection) {
+        addVehicleBtn.addEventListener('click', () => {
+            formSection.classList.toggle('hidden');
+        });
+    }
 
+    // Exibir ou esconder o menu
     if (menuIcon && menu) {
         menuIcon.addEventListener('click', () => {
             menu.classList.toggle('hidden');
         });
     }
 
+    // Adicionar ou editar um veículo ao enviar o formulário
+    if (vehicleForm) {
+        vehicleForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const vehicle = {
+                vehicle: document.getElementById('vehicle').value,
+                brand: document.getElementById('brand').value,
+                yearModel: document.getElementById('year-model').value,
+                engine: document.getElementById('engine').value,
+                color: document.getElementById('color').value,
+                plate: document.getElementById('plate').value,
+                fuelLevel: document.getElementById('fuel-level').value
+            };
+
+            const editIndex = vehicleForm.getAttribute('data-edit-index');
+            if (editIndex !== null) {
+                const id = vehicles[editIndex].id;
+                const updatedVehicle = await updateVehicle(id, vehicle);
+                vehicles[editIndex] = updatedVehicle;
+                vehicleForm.removeAttribute('data-edit-index');
+                showSuccess('Veículo atualizado com sucesso!');
+            } else {
+                const newVehicle = await saveVehicle(vehicle);
+                vehicles.push(newVehicle);
+                showSuccess('Veículo salvo com sucesso!');
+            }
+
+            renderVehicles();
+            formSection.classList.add('hidden');
+            vehicleForm.reset();
+        });
+    }
+
+    // Editar ou excluir um veículo ao clicar nos botões
+    vehicleList.addEventListener('click', async (event) => {
+        if (event.target.classList.contains('edit-btn')) {
+            const index = event.target.getAttribute('data-index');
+            const vehicle = vehicles[index];
+
+            document.getElementById('vehicle').value = vehicle.vehicle;
+            document.getElementById('brand').value = vehicle.brand;
+            document.getElementById('year-model').value = vehicle.yearModel;
+            document.getElementById('engine').value = vehicle.engine;
+            document.getElementById('color').value = vehicle.color;
+            document.getElementById('plate').value = vehicle.plate;
+            document.getElementById('fuel-level').value = vehicle.fuelLevel;
+
+            formSection.classList.remove('hidden');
+            vehicleForm.setAttribute('data-edit-index', index);
+        } else if (event.target.classList.contains('delete-btn')) {
+            const id = event.target.getAttribute('data-id');
+            await deleteVehicle(id);
+            vehicles = vehicles.filter(vehicle => vehicle.id !== id);
+            renderVehicles();
+            showSuccess('Veículo excluído com sucesso!');
+        }
+    });
+
+    // Carregar os veículos ao carregar a página
     fetchVehicles();
-    fetchRecebimentos();
 });
