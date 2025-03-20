@@ -17,6 +17,7 @@ header {
     background-color: #007BFF;
     color: white;
     padding: 10px 0;
+    position: relative;
 }
 
 header h1 {
@@ -27,8 +28,9 @@ header h1 {
 .menu-icon {
     cursor: pointer;
     font-size: 24px;
-    display: inline-block;
-    margin-left: 20px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
 }
 
 .menu {
