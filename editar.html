@@ -15,6 +15,7 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="editar.html">Editar</a></li>
+                    <li><a href="recebimento.html">Recebimento/Entrega</a></li>
                 </ul>
             </nav>
         </div>
@@ -71,5 +72,17 @@
         </div>
     </footer>
     <script src="scripts/editar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuIcon = document.getElementById('menu-icon');
+            const menu = document.getElementById('menu');
+
+            if (menuIcon && menu) {
+                menuIcon.addEventListener('click', () => {
+                    menu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
 </body>
 </html>
