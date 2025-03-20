@@ -1,1 +1,75 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Veículo</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Editar Veículo</h1>
+            <div class="menu-icon" id="menu-icon">III</div>
+            <nav class="menu hidden" id="menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="editar.html">Editar</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <h2>Formulário de Edição de Veículo</h2>
+            <button class="btn" id="add-vehicle-btn">Adicionar Veículo</button>
+            <div id="form-section" class="hidden">
+                <form id="vehicle-form">
+                    <label for="vehicle">Veículo:</label>
+                    <select id="vehicle" name="vehicle" required>
+                        <option value="Sedan">Sedan</option>
+                        <option value="Caminhonete">Caminhonete</option>
+                        <option value="Van">Van</option>
+                        <option value="Caminhão">Caminhão</option>
+                    </select><br>
+                    <label for="brand">Marca:</label>
+                    <select id="brand" name="brand" required>
+                        <option value="Toyota">Toyota</option>
+                        <option value="Ford">Ford</option>
+                        <option value="Volkswagen">Volkswagen</option>
+                        <option value="Chevrolet">Chevrolet</option>
+                        <option value="Mercedes">Mercedes</option>
+                        <option value="Renault">Renault</option>
+                    </select><br>
+                    <label for="year-model">Ano/Modelo:</label>
+                    <input type="text" id="year-model" name="year-model" required><br>
+                    <label for="engine">Motor:</label>
+                    <input type="text" id="engine" name="engine" required><br>
+                    <label for="color">Cor:</label>
+                    <input type="text" id="color" name="color" required><br>
+                    <label for="plate">Placa:</label>
+                    <input type="text" id="plate" name="plate" required><br>
+                    <label for="fuel-level">Nível de Combustível:</label>
+                    <select id="fuel-level" name="fuel-level" required>
+                        <option value="R">R (reserva)</option>
+                        <option value="1/4">1/4</option>
+                        <option value="1/2">1/2</option>
+                        <option value="3/4">3/4</option>
+                        <option value="C">C (cheio)</option>
+                    </select><br>
+                    <button type="submit" class="btn">Salvar</button>
+                </form>
+            </div>
+            <div id="vehicle-list">
+                <!-- Blocos de veículos adicionados serão inseridos aqui -->
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Created by: Yuri Silva</p>
+        </div>
+    </footer>
+    <script src="scripts/editar.js"></script>
+</body>
+</html>
