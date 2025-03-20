@@ -8,22 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const vehicleList = document.getElementById('vehicle-list');
     const vehicleForm = document.getElementById('vehicle-form');
     const plateInput = document.getElementById('plate');
-    const errorMessage = document.getElementById('error-message');
 
     let vehicles = [];
 
-    // Função para exibir a mensagem de erro
-    function showError(message) {
-        errorMessage.textContent = message;
-        errorMessage.classList.remove('hidden');
-    }
-
-    // Função para esconder a mensagem de erro
-    function hideError() {
-        errorMessage.classList.add('hidden');
-    }
-
-    // Função para aplicar a máscara da placa
     function applyPlateMask(input) {
         input.addEventListener('input', () => {
             let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -39,23 +26,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     applyPlateMask(plateInput);
 
-    // Função para buscar os veículos
     async function fetchVehicles() {
         try {
             const response = await fetch('http://localhost:3000/vehicles');
             if (!response.ok) {
-                throw new Error('Erro ao carregar os veículos');
+                throw new Error('Network response was not ok');
             }
             vehicles = await response.json();
             renderVehicles();
-            hideError();
         } catch (error) {
-            console.error('Erro ao buscar os veículos:', error);
-            showError('Erro ao carregar os veículos. Tente novamente mais tarde.');
+            console.error('Failed to fetch vehicles:', error);
         }
     }
 
-    // Função para salvar um novo veículo
     async function saveVehicle(vehicle) {
         try {
             const response = await fetch('http://localhost:3000/vehicles', {
@@ -66,16 +49,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(vehicle)
             });
             if (!response.ok) {
-                throw new Error('Erro ao salvar o veículo');
+                throw new Error('Network response was not ok');
             }
             return await response.json();
         } catch (error) {
-            console.error('Erro ao salvar o veículo:', error);
-            showError('Erro ao salvar o veículo. Tente novamente mais tarde.');
+            console.error('Failed to save vehicle:', error);
         }
     }
 
-    // Função para atualizar um veículo existente
     async function updateVehicle(id, vehicle) {
         try {
             const response = await fetch(`http://localhost:3000/vehicles/${id}`, {
@@ -86,32 +67,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(vehicle)
             });
             if (!response.ok) {
-                throw new Error('Erro ao atualizar o veículo');
+                throw new Error('Network response was not ok');
             }
             return await response.json();
         } catch (error) {
-            console.error('Erro ao atualizar o veículo:', error);
-            showError('Erro ao atualizar o veículo. Tente novamente mais tarde.');
+            console.error('Failed to update vehicle:', error);
         }
     }
 
-    // Função para excluir um veículo
     async function deleteVehicle(id) {
         try {
             const response = await fetch(`http://localhost:3000/vehicles/${id}`, {
                 method: 'DELETE'
             });
             if (!response.ok) {
-                throw new Error('Erro ao excluir o veículo');
+                throw new Error('Network response was not ok');
             }
-            return await response.json();
+            vehicles = vehicles.filter(vehicle => vehicle.id !== id);
+            renderVehicles();
         } catch (error) {
-            console.error('Erro ao excluir o veículo:', error);
-            showError('Erro ao excluir o veículo. Tente novamente mais tarde.');
+            console.error('Failed to delete vehicle:', error);
         }
     }
 
-    // Função para renderizar a lista de veículos
     function renderVehicles() {
         vehicleList.innerHTML = '';
         vehicles.forEach((vehicle, index) => {
@@ -131,21 +109,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Mostrar ou esconder o formulário de adicionar veículo
     if (addVehicleBtn && formSection) {
         addVehicleBtn.addEventListener('click', () => {
             formSection.classList.toggle('hidden');
         });
     }
 
-    // Exibir ou esconder o menu
     if (menuIcon && menu) {
         menuIcon.addEventListener('click', () => {
             menu.classList.toggle('hidden');
         });
     }
 
-    // Adicionar ou editar um veículo ao enviar o formulário
     if (vehicleForm) {
         vehicleForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -177,7 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Editar ou excluir um veículo ao clicar nos botões
     vehicleList.addEventListener('click', async (event) => {
         if (event.target.classList.contains('edit-btn')) {
             const index = event.target.getAttribute('data-index');
@@ -196,11 +170,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (event.target.classList.contains('delete-btn')) {
             const id = event.target.getAttribute('data-id');
             await deleteVehicle(id);
-            vehicles = vehicles.filter(vehicle => vehicle.id !== id);
-            renderVehicles();
         }
     });
 
-    // Carregar os veículos ao carregar a página
     fetchVehicles();
 });
