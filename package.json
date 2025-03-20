@@ -1,1 +1,13 @@
-
+// filepath: c:\Users\User\Documents\my-website\package.json
+{
+  "name": "my-website",
+  "version": "1.0.0",
+  "description": "Sistema de Gerenciamento de Veículos",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "json-server": "^0.16.3"
+  }
+}
