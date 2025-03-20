@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchVehicles() {
         try {
-            const response = await fetch('http://localhost:3000/vehicles');
+            const response = await fetch('https://my-website-90u490bfi-alastaiks-projects.vercel.app/vehicles');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function saveVehicle(vehicle) {
         try {
-            const response = await fetch('http://localhost:3000/vehicles', {
+            const response = await fetch('https://my-website-90u490bfi-alastaiks-projects.vercel.app/vehicles', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function updateVehicle(id, vehicle) {
         try {
-            const response = await fetch(`http://localhost:3000/vehicles/${id}`, {
+            const response = await fetch(`https://my-website-90u490bfi-alastaiks-projects.vercel.app/vehicles/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function deleteVehicle(id) {
         try {
-            const response = await fetch(`http://localhost:3000/vehicles/${id}`, {
+            const response = await fetch(`https://my-website-90u490bfi-alastaiks-projects.vercel.app/vehicles/${id}`, {
                 method: 'DELETE'
             });
             if (!response.ok) {
